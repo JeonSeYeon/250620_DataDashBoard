@@ -2,30 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import openai
-import os
 
 st.title('데이터 분석 웹앱')
-
-# --- AI 챗봇 (사이드바) ---
-st.sidebar.title('AI 챗봇')
-openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
-if openai_api_key:
-    user_question = st.sidebar.text_area('질문을 입력하세요')
-    if st.sidebar.button('질문하기') and user_question.strip():
-        with st.spinner('AI가 답변을 생성 중입니다...'):
-            try:
-                openai.api_key = openai_api_key
-                response = openai.ChatCompletion.create(
-                    model='gpt-3.5-turbo',
-                    messages=[{"role": "user", "content": user_question}]
-                )
-                answer = response['choices'][0]['message']['content']
-                st.sidebar.success(answer)
-            except Exception as e:
-                st.sidebar.error(f"에러 발생: {e}")
-else:
-    st.sidebar.info('OpenAI API Key를 입력하면 AI 챗봇을 사용할 수 있습니다.')
 
 # 1. CSV 파일 업로드
 uploaded_file = st.file_uploader('CSV 파일을 업로드하세요', type=['csv'])
